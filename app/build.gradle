@@ -1,0 +1,48 @@
+plugins {
+    id 'application'
+    // Actualizamos a la versión sugerida por tu Visual Studio (3.5.10)
+    id 'org.springframework.boot' version '3.5.10'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // BORRAMOS libs.guava porque no la usamos
+    
+    // --- Dependencias del Proyecto Semillero ---
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+testing {
+    suites {
+        test {
+            useJUnitJupiter('5.12.1')
+        }
+    }
+}
+
+java {
+    toolchain {
+        // Tu captura muestra que tienes Java 25, así que esto está bien
+        languageVersion = JavaLanguageVersion.of(25) 
+    }
+}
+
+application {
+    mainClass = 'co.edu.cur.semillero.App'
+}

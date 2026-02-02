@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula del Semillero - CUR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .chat-container { height: 400px; overflow-y: auto; background: #fdfdfd; border: 1px solid #dee2e6; padding: 15px; border-radius: 5px; }
+        .mensaje { margin-bottom: 10px; padding: 8px; border-radius: 10px; max-width: 80%; }
+        .mensaje-otro { background-color: #e9ecef; align-self: flex-start; }
+        .mensaje-mio { background-color: #007bff; color: white; margin-left: auto; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-primary mb-4">
+        <div class="container">
+            <span class="navbar-brand">Semillero CUR Caucasia</span>
+            <a href="/dashboard" class="btn btn-outline-light btn-sm">Volver al Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-info text-white">Detalles del Grupo</div>
+                    <div class="card-body">
+                        <h5 id="nombreSemillero">Cargando...</h5>
+                        <p class="text-muted" id="descripcionSemillero">Descripción del semillero.</p>
+                        <hr>
+                        <h6>Recursos Compartidos</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item small">📄 Plan_de_Trabajo_2026.pdf</li>
+                            <li class="list-group-item small">📄 Guia_Automatizacion_Pruebas.docx</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between">
+                        <span>Chat en Vivo</span>
+                        <span class="badge bg-light text-dark">Línea de tiempo 2026</span>
+                    </div>
+                    <div class="card-body">
+                        <div id="chatBox" class="chat-container d-flex flex-column mb-3">
+                            <div class="text-center text-muted">Cargando conversación...</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <input type="text" id="mensajeInput" class="form-control" placeholder="Escribe tu mensaje aquí...">
+                            <button class="btn btn-primary" onclick="enviarMensaje()">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Obtenemos el ID del semillero desde la URL (ej: /semillero/1)
+        const pathSegments = window.location.pathname.split('/');
+        const SEMILLERO_ID = pathSegments[pathSegments.length - 1];
+        
+        // El ID del usuario actual debería venir de la sesión de
