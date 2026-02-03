@@ -1,10 +1,10 @@
 package co.edu.cur.semillero.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuarios")
+@SuppressWarnings("all") 
 public class Usuario {
 
     @Id
@@ -12,54 +12,42 @@ public class Usuario {
     private Long id;
 
     @Column(nullable = false)
-    private String nombre;
+    private String nombre = "";
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String email = "";
 
     @Column(nullable = false)
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Rol rol;
+    private String password = "";
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Facultad facultad;
+    private Rol rol = Rol.ESTUDIANTE; 
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Facultad facultad = Facultad.INGENIERIA_SISTEMAS;
 
     @Column(nullable = false)
     private boolean activo = true;
 
-    @Column(name = "fecha_registro")
-    private LocalDateTime fechaRegistro;
-
-    @PrePersist
-    protected void onCreate() {
-        fechaRegistro = LocalDateTime.now();
-    }
-
-    // Constructor vacío obligatorio para JPA
-    public Usuario() {}
-
-    // Getters y Setters
+    // Getters y Setters con validación de nulidad interna
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
+    
     public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setNombre(String nombre) { this.nombre = (nombre != null) ? nombre : ""; }
 
     public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) { this.email = (email != null) ? email : ""; }
 
     public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) { this.password = (password != null) ? password : ""; }
 
     public Rol getRol() { return rol; }
-    public void setRol(Rol rol) { this.rol = rol; }
+    public void setRol(Rol rol) { this.rol = (rol != null) ? rol : Rol.ESTUDIANTE; }
 
     public Facultad getFacultad() { return facultad; }
-    public void setFacultad(Facultad facultad) { this.facultad = facultad; }
+    public void setFacultad(Facultad facultad) { this.facultad = (facultad != null) ? facultad : Facultad.INGENIERIA_SISTEMAS; }
 
     public boolean isActivo() { return activo; }
     public void setActivo(boolean activo) { this.activo = activo; }

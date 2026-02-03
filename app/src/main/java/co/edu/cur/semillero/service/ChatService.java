@@ -1,13 +1,18 @@
 package co.edu.cur.semillero.service;
 
-import co.edu.cur.semillero.model.*;
-import co.edu.cur.semillero.repository.*;
+import co.edu.cur.semillero.model.MensajeChat;
+import co.edu.cur.semillero.model.Semillero;
+import co.edu.cur.semillero.model.Usuario;
+import co.edu.cur.semillero.repository.MensajeChatRepository;
+import co.edu.cur.semillero.repository.SemilleroRepository;
+import co.edu.cur.semillero.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Objects; // Para validación de nulidad
+import java.util.Objects;
 
 @Service
 public class ChatService {
+
     private final MensajeChatRepository mensajeRepo;
     private final UsuarioRepository usuarioRepo;
     private final SemilleroRepository semilleroRepo;
@@ -19,13 +24,13 @@ public class ChatService {
     }
 
     public MensajeChat enviarMensaje(Long usuarioId, Long semilleroId, String contenido) {
-        // Validación explícita para eliminar el error de "Null type safety"
-        Objects.requireNonNull(usuarioId, "El ID de usuario no puede ser nulo");
-        Objects.requireNonNull(semilleroId, "El ID de semillero no puede ser nulo");
+        // Validación obligatoria para Java 25
+        Long uId = Objects.requireNonNull(usuarioId, "usuarioId es requerido");
+        Long sId = Objects.requireNonNull(semilleroId, "semilleroId es requerido");
 
-        Usuario usuario = usuarioRepo.findById(usuarioId)
+        Usuario usuario = usuarioRepo.findById(uId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        Semillero semillero = semilleroRepo.findById(semilleroId)
+        Semillero semillero = semilleroRepo.findById(sId)
                 .orElseThrow(() -> new RuntimeException("Semillero no encontrado"));
 
         MensajeChat mensaje = new MensajeChat();

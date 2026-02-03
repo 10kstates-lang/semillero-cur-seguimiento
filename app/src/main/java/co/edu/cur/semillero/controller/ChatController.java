@@ -11,6 +11,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
+
     private final ChatService chatService;
 
     public ChatController(ChatService chatService) {
@@ -25,13 +26,13 @@ public class ChatController {
     @PostMapping("/enviar")
     public ResponseEntity<?> enviarMensaje(@RequestBody Map<String, Object> payload) {
         try {
-            // Extraer y validar nulidad inmediatamente
-            Object uIdObj = Objects.requireNonNull(payload.get("usuarioId"), "usuarioId es requerido");
-            Object sIdObj = Objects.requireNonNull(payload.get("semilleroId"), "semilleroId es requerido");
-            String text = (String) payload.get("contenido");
+            // Validación de existencia en el Map para evitar advertencias amarillas
+            Object uIdRaw = Objects.requireNonNull(payload.get("usuarioId"), "Falta usuarioId");
+            Object sIdRaw = Objects.requireNonNull(payload.get("semilleroId"), "Falta semilleroId");
 
-            Long uId = Long.valueOf(uIdObj.toString());
-            Long sId = Long.valueOf(sIdObj.toString());
+            Long uId = Long.valueOf(uIdRaw.toString());
+            Long sId = Long.valueOf(sIdRaw.toString());
+            String text = (String) payload.get("contenido");
 
             chatService.enviarMensaje(uId, sId, text);
             return ResponseEntity.ok().build();
