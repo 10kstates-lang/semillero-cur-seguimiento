@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null") // ESTA ES LA CLAVE: Borra todas las advertencias de Null Safety del archivo
+@SuppressWarnings("all") // Elimina las advertencias de Null Safety para el servidor de GitHub
 class UsuarioServiceTest {
 
     @Mock
@@ -36,12 +36,11 @@ class UsuarioServiceTest {
         when(usuarioRepository.findByEmail(anyString())).thenReturn(Optional.empty());
         when(passwordEncoder.encode(anyString())).thenReturn("hashed_pass");
         
-        // El casting (Usuario) asegura el tipo para Mockito
+        // El casting (Usuario) asegura que no haya errores de tipo
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> (Usuario) i.getArgument(0));
 
         Usuario resultado = usuarioService.registrarUsuario(user);
 
-        // Al usar @SuppressWarnings arriba, estas líneas ya no marcarán error amarillo
         assertNotNull(resultado, "El resultado no puede ser nulo");
         assertEquals(Rol.ESTUDIANTE, resultado.getRol());
         

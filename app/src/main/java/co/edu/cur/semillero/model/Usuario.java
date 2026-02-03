@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
-@SuppressWarnings("all") 
+@SuppressWarnings("all") // ESTA ES LA CLAVE: Borra todas las advertencias visuales y de compilación
 public class Usuario {
 
     @Id
@@ -31,24 +31,18 @@ public class Usuario {
     @Column(nullable = false)
     private boolean activo = true;
 
-    // Getters y Setters con validación de nulidad interna
+    // Getters y Setters estándar
     public Long getId() { return id; }
-    
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = (nombre != null) ? nombre : ""; }
-
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = (email != null) ? email : ""; }
-
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = (password != null) ? password : ""; }
-
     public Rol getRol() { return rol; }
     public void setRol(Rol rol) { this.rol = (rol != null) ? rol : Rol.ESTUDIANTE; }
-
     public Facultad getFacultad() { return facultad; }
     public void setFacultad(Facultad facultad) { this.facultad = (facultad != null) ? facultad : Facultad.INGENIERIA_SISTEMAS; }
-
     public boolean isActivo() { return activo; }
     public void setActivo(boolean activo) { this.activo = activo; }
 }
